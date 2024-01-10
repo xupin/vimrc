@@ -9,7 +9,6 @@ set number                               " 显示行号
 " set relativenumber                       " 显示相对行号
 set smartindent                          " 智能缩进
 set autoindent                           " 自动对齐
-set autochdir                            " 自动工作目录
 
 set smarttab
 set tabstop=4                            " tab缩进
@@ -38,6 +37,9 @@ set ruler                                " 显示标尺，在右下角显示光�
 set novisualbell                         " 不要闪烁
 set showcmd                              " 显示输入的命令
 set completeopt=longest,menu             " 自动补全
+
+set autochdir                            " 自动工作目录
+set mouse=                               " 禁用鼠标
 
 " 设置光标样式
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
@@ -73,7 +75,7 @@ Plug 'preservim/nerdtree'
 nnoremap <C-F> :NERDTreeFind<CR>
 nnoremap <C-E> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.git$', '\.DS_Store$', 'build', 'vendor']
+let NERDTreeIgnore=['\.git$', '\.vscode$', '\.DS_Store$', 'build', 'vendor']
 
 " 模糊搜索
 Plug 'yggdroot/leaderf'
@@ -82,7 +84,7 @@ let g:Lf_ShortcutF = '<C-P>'
 " 自动生成tags
 Plug 'ludovicchabant/vim-gutentags'
 set tags=tags
-let g:gutentags_project_root = ['.root', '.svn', '.git']
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.tags']
 let g:gutentags_ctags_tagfile = '.tags'
 let s:vim_tags = expand('~/.cache/tags')
 let g:gutentags_cache_dir = s:vim_tags
@@ -92,6 +94,18 @@ endif
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-let g:gutentags_ctags_exclude = ['\.git', 'vendor', 'build', '*.json']
+let g:gutentags_ctags_exclude = ['\.git', '\.vscode', 'vendor', 'build', '*.json']
 
 call plug#end()
+
+" function
+
+" tab补全
+function! CleverTab()
+        if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+                return "\<Tab>"
+        else
+                return "\<C-N>"
+        endif
+endfunction
+inoremap <Tab> <C-R>=CleverTab()<CR>

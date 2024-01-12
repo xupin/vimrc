@@ -96,6 +96,9 @@ let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 let g:gutentags_ctags_exclude = ['\.git', '\.vscode', 'vendor', 'build', '*.json']
 
+" 自动括号
+Plug 'jiangmiao/auto-pairs'
+
 call plug#end()
 
 " function
